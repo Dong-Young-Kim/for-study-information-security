@@ -20,9 +20,10 @@ void construct_key_schedule(char K[], char keys[17][48]){
 
 void split_KPlus(char KPlus[], char C0[], char D0[]){
 // split kplus into c0 and d0
-   // ......code........
-   strncpy(C0, KPlus, sizeof(char) * 28);
-   strncpy(D0, (KPlus + 28), sizeof(char) * 28);
+   //memcpy(C0, KPlus, sizeof(char) * 28);
+   //memcpy(D0, (KPlus + 28), sizeof(char) * 28);
+   copy_arr(C0, KPlus, 28);
+   copy_arr(D0, KPlus + 28, 28);
 
    printf("after split KPlust\n");
    show_CD(C0, D0);
@@ -33,7 +34,6 @@ void show_CD(char C[], char D[]){
    for(int i=0;i<28;i++) printf("%d", D[i]);
    printf("\n");
 }
-
    
 void comp_Cn_Dn(char C[17][28], char D[17][28], int ROL[]){
 // compute C1, D1; C2, D2; ... etc using ROL table
@@ -45,8 +45,11 @@ void comp_Cn_Dn(char C[17][28], char D[17][28], int ROL[]){
 }
 void comp_Ci_Di(char C[17][28], char D[17][28], int i, int ROL[]){
 // compute C[i], D[i] from C[i-1], D[i-1] using ROL[i]
-   // ........... code ...........
+   int shiftNum = ROL[i];
+   for(int j=0;j<28;j++) C[i][j] = C[i-1][(j+shiftNum)%28];
+   for(int j=0;j<28;j++) D[i][j] = D[i-1][(j+shiftNum)%28];
 }
+
 void comp_keys(char C[17][28], char D[17][28], int PC_2[8][6], char keys[17][48]){
    char CD[56];
    for(int i=1;i<=16;i++){
@@ -54,8 +57,8 @@ void comp_keys(char C[17][28], char D[17][28], int PC_2[8][6], char keys[17][48]
       permute_8_6(PC_2, CD, keys[i]);
    }
    printf("displaying keys\n");
-   for(int i=0;i<17;i++){
-      printf("K%d=",i);
+   for(int i=1;i<17;i++){
+      printf("K%2d = ",i);
       show_arr(keys[i], 48);
    }
 }

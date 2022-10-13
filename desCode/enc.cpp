@@ -2,6 +2,7 @@
 
 void des_encrypt(char M[], char keys[17][48], char cipher[]){
 // des-encrypt M into cipher with keys[][]
+   printf("=======<des encryption=========\n");
 
    // step 3.1. permute M into MPlus using IP matrix 
    char MPlus[64];
@@ -26,8 +27,9 @@ void des_encrypt(char M[], char keys[17][48], char cipher[]){
 }
 
 void split_into_L0R0(char MPlus[], char L[], char R[], int len){
-   int i;
-   // ........ code .............
+   copy_arr(L, MPlus, 32);
+   copy_arr(R, MPlus + 32, 32);
+
    printf("after split into L0R0.\n");
    show_LR(L, R);
 }
