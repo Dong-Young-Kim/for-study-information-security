@@ -2,7 +2,7 @@
 
 void des_encrypt(char M[], char keys[17][48], char cipher[]){
 // des-encrypt M into cipher with keys[][]
-   printf("=======<des encryption=========\n");
+   printf("\n======= <des encryption> =========\n");
 
    // step 3.1. permute M into MPlus using IP matrix 
    char MPlus[64];
@@ -14,6 +14,7 @@ void des_encrypt(char M[], char keys[17][48], char cipher[]){
 
    // step 3.3. compute Ln, Rn from L(n-1), R(n-1) for n=1..16
    for(int i=1;i<=16;i++){
+      printf("=============== now compute L%d, R%d ===============\n",i,i);
       comp_Li_Ri(L, R, i, 32, keys[i]);
       show_LiRi(L,R,i);
    }
@@ -62,14 +63,17 @@ void comp_Li_Ri(char L[17][32], char R[17][32], int i, int len, char *key){
    xoring(L[i-1], f, R[i], 32);
 }
 void reverse(char L[], char R[]){
-   // ........... code ..............
+   char tmp[32];
+   copy_arr(tmp, L, 32);
+   copy_arr(L, R, 32);
+   copy_arr(R, tmp, 32);
+
    printf("after reverse. L and R is\n");
    show_LR(L, R);
 }
 void combineLR(char L[], char R[], char LR[]){
 // combine L and R into LR
-   // ............code ..............
-
+   combine_arr(L, R, LR, 32);
    printf("after combineLR\n");
    show_arr(LR, 64);
 }

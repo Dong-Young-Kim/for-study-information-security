@@ -13,7 +13,7 @@ void comp_f(char *R, char *key, char *f){
    // step 3.3.3. split ERp into B1, B2, ..., B8 
    char B[8][6];
    split_B(ERp, B); // split 48-bit ERp into 6-bit B1, B2, ..., B8
-   printf("aftr split B. B is\n");
+   printf("after split B. B is\n");
    showB(B);
 
    // step 3.3.4. Convert 6-bit B[i] into 4-bit SB[i]
@@ -58,7 +58,7 @@ void show_SB(char SB[8][4]){
    }
 }
 void split_B(char ERp[], char B[8][6]){
-   // ............ code
+   for(int i = 0; i < 8; i++) copy_arr(B[i], ERp + (6 * i), 8);
 }
 void do_sbox(char B[8][6], char SB[8][4], int Sbox[8][4][16]){
 // comp SB[0], SB[1], ... SB[7] from B[][] using Sbox
@@ -69,6 +69,8 @@ void do_sbox(char B[8][6], char SB[8][4], int Sbox[8][4][16]){
 void do_sbox_i(char B[8][6], char SB[8][4], int Sbox[8][4][16], int i){
 // comp SB[i] from B[i] using Sbox[i]
    // ............. code
+   int SBval = Sbox[i][comp_row_from_B(B[i])][comp_col_from_B(B[i])];
+   convert_val_to_4bit(SBval, SB[i]);
 }
       
 int comp_row_from_B(char B[]){
